@@ -10,13 +10,18 @@ License: GPLv2 or later
 Text Domain: wp_credits
 */
 
-
 /**
  * All Constants for use in the plugin
  * ------------------------------------------------------------------------
  */
 define(URL_WP_CREDITS,plugins_url("/",__FILE__));
 define(DIR_WP_CREDITS,plugin_dir_path(__FILE__));
+
+/**
+ * Shortcodes
+ * ------------------------------------------------------------------------
+ */
+require DIR_WP_CREDITS.'/shortcodes/index.php';
 
 function wp_credits_admin_menu(){
     add_menu_page('Créditos', 'Créditos', 'manage_options', 'credits-settings','wp_credits_settings_page');
