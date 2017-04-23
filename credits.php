@@ -124,3 +124,86 @@ function wp_credit_delete(){
     echo json_encode($reply);
     wp_die();
 }
+
+/*
+ * Select credit
+ * --------------------------------------------------------------------
+ */
+add_action('wp_ajax_wp_select_credit', 'wp_select_credit');
+function wp_select_credit(){
+    $reply   = array();
+
+    if(!current_user_can('manage_options')){
+        $reply["error"]     = true;
+        $reply["message"]   = __('No tienes permisos suficientes para acceder a esta página.','wp_credits');
+    }
+    else{
+        global $wpdb;
+        $credit = $wpdb->get_row("select * from wp_credits where tax_id = ".$_POST["id"]."",OBJECT);
+        if(!$credit){
+            $reply["error"]     = true;
+            $reply["message"]   = __('hubo un error consultando el crédito.','wp_credits');
+        }
+        else{
+            $reply["error"]  = false;
+            $reply["data"]   = $credit;
+        }
+    }
+
+    echo json_encode($reply);
+    wp_die();
+}
+
+/*
+ * Update credits
+ * --------------------------------------------------------------------
+ */
+add_action('wp_ajax_wp_credits_settings_update', 'wp_credits_settings_update');
+function wp_credits_settings_update(){
+    $reply   = array();
+
+    if(!current_user_can('manage_options')){
+        $reply["error"]     = true;
+        $reply["message"]   = __('No tienes permisos suficientes para acceder a esta página.','wp_credits');
+    }
+    else{
+        if(!isset($_POST['wp_credits_settings'])){
+            $reply["error"]     = true;
+            $reply["message"]   = __("Hay un error al procesar el formulario.","wp_credits");
+        }
+        else{
+            if (!wp_verify_nonce($_POST['wp_credits_settings'], 'update_wp_credits_settings')){
+                $reply["error"]     = true;
+                $reply["message"]   = __("Hay un error al procesar el formulario.","wp_credits");
+            }
+            else{
+                $data = array(
+                    "tax_name"                  => $_POST["tax-name"],
+                    "rate_nmv"                  => $_POST["rate-nmv"],
+                    "rate_insurance_debtors"    => $_POST["rate-insurance-debtors"],
+                    "rate_maximum_months"       => $_POST["maximum-months"]
+                );
+                
+                global $wpdb;
+                $results = $wpdb->update(
+                    "wp_credits",
+                    $data,
+                    array('tax_id' => $_POST["tax-id"]),
+                    array("%s","%f","%f","%d")
+                );
+
+                if(!$results){
+                    $reply["error"]     = true;
+                    $reply["message"]   = __("Hay un error al procesar el formulario.","wp_credits");
+                }
+                else{
+                    $reply["error"]     = false;
+                    $reply["message"]   = __("El crédito fue actualizado","wp_credits");
+                }
+            }
+        }
+    }
+
+    echo json_encode($reply);
+    wp_die();
+}

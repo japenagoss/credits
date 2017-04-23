@@ -74,7 +74,7 @@
                                 <td><?php echo $value->time;?></td>
                                 <td>
                                     <a href="#<?php echo $value->tax_id;?>" class="wp_credit_delete"><?php _e('Eliminar','wp_credits');?></a>
-                                    <a href="#<?php echo $value->tax_id;?>" class="wp_edit_delete"><?php _e('Editar','wp_credits');?></a>
+                                    <a href="#<?php echo $value->tax_id;?>" class="wp_select_credit"><?php _e('Editar','wp_credits');?></a>
                                 </td>
                             </tr>
                         <?php endforeach;?>
@@ -84,7 +84,7 @@
                 <form>
                     <?php wp_nonce_field('update_wp_credits_settings', 'wp_credits_settings');?>
                     
-                    <input type="hidden" name="tax_id" value="">
+                    <input type="hidden" name="tax-id" value="">
                     <div class="fieldset">
                         <label for="tax-name"><b><?php _e('Nombre','wp_credits');?></b></label><br />
                         <input type="text" name="tax-name" class="regular-text">
@@ -102,7 +102,7 @@
                         <input type="text" name="maximum-months" class="regular-text">
                     </div>
                     <div class="fieldset">
-                        <button id="wp_credits_save" type="button" class="button-primary">
+                        <button id="wp_credits_update" type="button" class="button-primary">
                             <?php _e('Actualizar','wp_credits');?>
                         </button>
                     </div>

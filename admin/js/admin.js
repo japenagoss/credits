@@ -14,12 +14,12 @@ jQuery(document).ready(function($){
         element.parent().siblings('li').removeClass('current');
     });
 
-     /**
+    /**
      * Save by ajax form data
      */
     $('#wp_credits_save').click(function(){
         var data =  $('#wp-create-credits form').serialize()+'&action=wp_credits_settings_save';
-        send_data_by_ajax(data);
+        send_data_by_ajax(data,false);
     });
 
     /**
@@ -31,22 +31,53 @@ jQuery(document).ready(function($){
             id = id.replace("#","");
         
         var data = "id="+id+"&action=wp_credit_delete";
-        send_data_by_ajax(data);
+        send_data_by_ajax(data,false);
+    });
+
+    /**
+     * Select credit
+     */
+    $(".wp_select_credit").click(function(e){
+        e.preventDefault();
+        var id = $(this).attr("href");
+            id = id.replace("#","");
+        
+        var data    = "id="+id+"&action=wp_select_credit";
+        send_data_by_ajax(data,true);
+    });
+
+    /**
+     * Update credit
+     */
+    $('#wp_credits_update').click(function(){
+        var data =  $('#wp-edit-credits form').serialize()+'&action=wp_credits_settings_update';
+        send_data_by_ajax(data,false);
     });
 
     /**
      * Send data by ajax
      */
-    function send_data_by_ajax(data){
+    function send_data_by_ajax(data, select){
         $.ajax({
             type:"POST",
             url:ajaxurl,
             data:data,
             dataType:"json",
+            async: true,
             success:function(response){
                 if(!response.error){
-                    alert(response.message);
-                    location.href = "";
+                    if(!select){
+                        alert(response.message);
+                        location.href = "";
+                    }
+                    else{
+                        $("input[name='tax-id']").val(response.data.tax_id);
+                        $("input[name='tax-name']").val(response.data.tax_name);
+                        $("input[name='rate-nmv']").val(response.data.rate_nmv);
+                        $("input[name='rate-insurance-debtors']").val(response.data.rate_insurance_debtors);
+                        $("input[name='maximum-months']").val(response.data.rate_maximum_months);
+                        $("input[name='maximum-months']").val(response.data.rate_maximum_months);
+                    }
                 }
                 else{
                     alert(response.message);
