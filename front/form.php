@@ -14,7 +14,9 @@
     </div>
     <div>
         <label for="number-of-months"><?php _e('Plazo (en meses)','wp_credits');?></label>
-        <input type="text" name="number-of-months">
+        <select name="number-of-months">
+            <option></option>
+        </select>
     </div>
     <div>
         <button id="wp_credit_calculate"><?php _e('Calcular','wp_credits');?></button>
