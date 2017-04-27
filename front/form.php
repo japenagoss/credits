@@ -13,11 +13,33 @@
         <input type="text" name="loan-amount">
     </div>
     <div>
+        <input type="checkbox" name="send-to-agent">
+        <label for="send-to-agent"><?php _e('Enviar mis datos a un asesor para obetener más información acerca del crédito.','wp_credits');?></label>
+    </div>
+    <div>
         <label for="number-of-months"><?php _e('Plazo (en meses)','wp_credits');?></label>
         <select name="number-of-months">
             <option></option>
         </select>
     </div>
+
+    <div id="wp-user-information">
+        <div>
+            <label for="wp-user-name"><?php _e('Nombre:','wp_credits');?></label>
+            <input type="text" name="wp-user-name">
+        </div>
+
+        <div>
+            <label for="wp-user-email"><?php _e('Correo electrónico:','wp_credits');?></label>
+            <input type="email" name="wp-user-email">
+        </div>
+
+        <div>
+            <label for="wp-user-phone"><?php _e('Teléfono:','wp_credits');?></label>
+            <input type="email" name="wp-user-phone">
+        </div>
+    </div>
+
     <div>
         <button id="wp_credit_calculate"><?php _e('Calcular','wp_credits');?></button>
     </div>

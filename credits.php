@@ -212,3 +212,19 @@ function wp_credits_settings_update(){
     echo json_encode($reply);
     wp_die();
 }
+
+
+/*
+ * Delete credit
+ * --------------------------------------------------------------------
+ */
+add_action('wp_ajax_wp_credit_send_email', 'wp_credit_send_email');
+function wp_credit_send_email(){
+    wp_mail(
+        $_POST["user_email"], 
+        __("Un usuario desea mas información acerca de un crédito","wp_credits"), 
+        "Hola mundo"
+    );
+
+    wp_die();
+}

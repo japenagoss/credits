@@ -1,3 +1,7 @@
 #wp_credits_data{
     display: none;
 }
+
+#wp-user-information{
+	display: none;
+}
