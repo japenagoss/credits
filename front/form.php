@@ -22,7 +22,9 @@
             <option></option>
         </select>
     </div>
-
+    
+    <br />
+    
     <div id="wp-user-information">
         <div>
             <label for="wp-user-name"><?php _e('Nombre:','wp_credits');?></label>
@@ -45,7 +47,16 @@
     </div>
 </form>
 
+<br />
+<br />
+
 <div id="wp_credits_result">
+    <div>
+        <h2 id="wp_credits_result_kind_credit"><?php _e('Tipo de crédito: ','wp_credits');?><span></span></h2>
+        <div id="wp_credits_result_amount"><?php _e('Valor del préstamo: ','wp_credits');?><span></span></div>
+        <div id="wp_credits_result_months"><?php _e('Número de meses: ','wp_credits');?><span></span></div>
+        <div id="wp_credits_result_quota"><?php _e('Cuota mensual: ','wp_credits');?><span></span></div>
+    </div>
 </div>
 
 <div id="wp_credits_data">
