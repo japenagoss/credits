@@ -213,7 +213,6 @@ function wp_credits_settings_update(){
     wp_die();
 }
 
-
 /*
  * Send email to agent
  * --------------------------------------------------------------------
@@ -230,11 +229,20 @@ function wp_credit_send_email(){
     $html .= "<div>".__("Email: ","wp_credits").$_POST["user_email"]."</div>";
     $html .= "<div>".__("Teléfono: ","wp_credits").$_POST["user_phone"]."</div>";
 
+    $agents_emails  = get_option("wp_credit_agents");
+    $agents_emails  = maybe_unserialize($agents_emails);
+    $emails         = array();
+
+    foreach ($agents_emails as $email) {
+        array_push($emails, $email);
+    }
+
     wp_mail(
-        $_POST["user_email"], 
+        $emails, 
         __("Un usuario desea más información acerca de un crédito","wp_credits"), 
         $html
     );
+    
     wp_die();
 }
 
@@ -242,3 +250,29 @@ function email_set_content_type(){
     return "text/html";
 }
 add_filter( 'wp_mail_content_type','email_set_content_type' );
+
+/*
+ * Save agents
+ * --------------------------------------------------------------------
+ */
+add_action('wp_ajax_wp_credits_create_agent', 'wp_credits_create_agent');
+function wp_credits_create_agent(){
+    $reply      = array();
+    $agents     = explode("\r\n", $_POST["agents"]);
+    $emails     = array();
+
+    foreach($agents as $key => $value){
+        if(!filter_var(trim($value), FILTER_VALIDATE_EMAIL) === false){
+            array_push($emails,trim($value));
+        }
+    }
+
+    $emails = maybe_serialize($emails);
+    update_option("wp_credit_agents",$emails);
+
+    $reply["error"]     = false;
+    $reply["message"]   = __("Se guardaron los agentes","wp_credits");
+
+    echo json_encode($reply);
+    wp_die();
+}

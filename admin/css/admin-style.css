@@ -133,6 +133,12 @@
     display: block;
 }
 
+#wp_credits_container .content span{
+    font-style: italic;
+    margin-bottom: 10px;
+    display: block;
+}
+
 
 #wp_credits_container .content-hide{
     display: none;

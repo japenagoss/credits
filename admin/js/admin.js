@@ -54,6 +54,15 @@ jQuery(document).ready(function($){
         send_data_by_ajax(data,false);
     });
 
+
+    /**
+     * Dave agents
+     */
+    $('#wp_agents_create').click(function(){
+        var data =  $('#wp-create-agents form').serialize()+'&action=wp_credits_create_agent';
+        send_data_by_ajax(data,false);
+    });
+
     /**
      * Send data by ajax
      */

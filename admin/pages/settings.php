@@ -11,10 +11,13 @@
         <section class="of-nav">
             <ul>
                 <li>
-                    <a title="General Settings" href="#wp-create-credits"><?php _e('Crear créditos','wp_credits');?></a>
+                    <a title="" href="#wp-create-credits"><?php _e('Crear créditos','wp_credits');?></a>
                 </li>
                 <li>
-                    <a title="General Settings" href="#wp-edit-credits"><?php _e('Editar créditos','wp_credits');?></a>
+                    <a title="" href="#wp-edit-credits"><?php _e('Editar créditos','wp_credits');?></a>
+                </li>
+                <li>
+                    <a title="" href="#wp-create-agents"><?php _e('Agentes','wp_credits');?></a>
                 </li>
             </ul>
         </section>
@@ -108,6 +111,36 @@
                     </div>
                 </form>
                 
+            </div>
+
+            <div id="wp-create-agents" class='content-hide'>
+                <form>
+                    <div class="fieldset">
+                        <label for="agents"><b><?php _e('Registrar agentes','wp_credits');?></b></label><br />
+                        <span><?php _e('Registrar los correos electrónicos uno debajo de otro','wp_credits');?></span>
+                        <?php 
+                            $agents_emails  = get_option("wp_credit_agents");
+                            $agents_emails  = maybe_unserialize($agents_emails);
+                            $emails         = "";
+                            $em_counter     = 1;
+                            foreach ($agents_emails as $email) {
+                                if($em_counter < count($agents_emails)){
+                                    $emails .= $email."\r\n";
+                                }
+                                else{
+                                    $emails .= $email;
+                                }
+                                $em_counter++;
+                            }
+                        ?>
+                        <textarea name="agents" cols="40" rows="10"><?php echo $emails;?></textarea>
+                    </div>
+                    <div class="fieldset">
+                        <button id="wp_agents_create" type="button" class="button-primary">
+                            <?php _e('Guardar','wp_credits');?>
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </section>
