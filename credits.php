@@ -46,7 +46,8 @@ add_action('admin_menu','wp_credits_admin_menu');
 add_action('admin_enqueue_scripts', 'wp_credits_styles_scripts'); 
 function wp_credits_styles_scripts(){
     wp_enqueue_style('wp-credits-admin-css', URL_WP_CREDITS.'/admin/css/admin-style.css', false, '1.0');
-    wp_enqueue_script('wp-credits-admin-js',URL_WP_CREDITS.'/admin/js/admin.js',array('jquery'),'1.0');
+    wp_enqueue_script('wp-jquery.caret',URL_WP_CREDITS.'/admin/js/jquery.caret.js',array('jquery'),'1.0');
+    wp_enqueue_script('wp-credits-admin-js',URL_WP_CREDITS.'/admin/js/admin.js',array('jquery','wp-jquery.caret'),'1.0');
 }
 
 /*
@@ -199,7 +200,7 @@ function wp_credits_settings_update(){
 
                 if(!$results){
                     $reply["error"]     = true;
-                    $reply["message"]   = __("Hay un error al procesar el formulario.","wp_credits");
+                    $reply["message"]   = __("No se actualizó.","wp_credits");
                 }
                 else{
                     $reply["error"]     = false;
