@@ -165,23 +165,38 @@ jQuery(document).ready(function($){
                     alert("El campo Tasa NMV debe ser númerico");
                 }
                 else{
-                    if(insurance_debtors.length == 0){
-                        alert("Debe diligenciar el campo Tasa de seguro de deudores");
-                    } 
+                    if(rate_nmv == "0"){
+                        alert("El campo Tasa NMV debe ser mayor a 0");
+                    }
                     else{
-                        if(!is_numeric(insurance_debtors)){
-                            alert("El campo Tasa de seguro de deudores debe ser númerico");
-                        }
+                        if(insurance_debtors.length == 0){
+                            alert("Debe diligenciar el campo Tasa de seguro de deudores");
+                        } 
                         else{
-                            if(maximum_months.length == 0){
-                                alert("Debe diligenciar el campo Máximo de meses");  
+                            if(!is_numeric(insurance_debtors)){
+                                alert("El campo Tasa de seguro de deudores debe ser númerico");
                             }
                             else{
-                                if(!is_int(maximum_months)){
-                                    alert("El campo Máximo de meses debe ser entero");
+                                if(insurance_debtors == "0"){
+                                    alert("El campo Tasa de seguro de deudores debe ser mayor a 0");
                                 }
                                 else{
-                                    return true;
+                                    if(maximum_months.length == 0){
+                                        alert("Debe diligenciar el campo Máximo de meses");  
+                                    }
+                                    else{
+                                        if(maximum_months == "0"){
+                                            alert("El campo Máximo de meses debe ser mayor a 0");
+                                        }
+                                        else{
+                                            if(!is_int(maximum_months)){
+                                                alert("El campo Máximo de meses debe ser entero");
+                                            }
+                                            else{
+                                                return true;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
