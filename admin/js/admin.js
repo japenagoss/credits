@@ -2,6 +2,7 @@ jQuery(document).ready(function($){
 
     /**
      * Show and hide content for each item on menu 
+     * ----------------------------------------------------
      */
     $('#wp_credits_container .of-nav li a').click(function(e){
         e.preventDefault();
@@ -16,6 +17,7 @@ jQuery(document).ready(function($){
 
     /**
      * Save by ajax form data
+     * ----------------------------------------------------
      */
     $('#wp_credits_save').click(function(){
         var form                = $('#wp-create-credits form'),
@@ -34,6 +36,7 @@ jQuery(document).ready(function($){
 
     /**
      * Delete credit
+     * ----------------------------------------------------
      */
     $(".wp_credit_delete").click(function(e){
         e.preventDefault();
@@ -58,6 +61,7 @@ jQuery(document).ready(function($){
 
     /**
      * Update credit
+     * ----------------------------------------------------
      */
     $('#wp_credits_update').click(function(){
         var form                = $('#wp-edit-credits form'),
@@ -77,6 +81,7 @@ jQuery(document).ready(function($){
 
     /**
      * Save agents
+     * ----------------------------------------------------
      */
     $('#wp_agents_create').click(function(){
         var data =  $('#wp-create-agents form').serialize()+'&action=wp_credits_create_agent';
@@ -85,6 +90,7 @@ jQuery(document).ready(function($){
 
     /**
      * Send data by ajax
+     * ----------------------------------------------------
      */
     function send_data_by_ajax(data, select){
         $.ajax({
@@ -119,8 +125,12 @@ jQuery(document).ready(function($){
 
     /**
      * Don't allow write characters diferents to numbers in numbers fields
+     * ----------------------------------------------------
      */
     $('.filter_float').keypress(function(eve) {
+
+        console.log(eve.which);
+
         if ((eve.which != 46 || $(this).val().indexOf(',') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
             eve.preventDefault();
         }
@@ -140,29 +150,75 @@ jQuery(document).ready(function($){
 
     /**
      * Validate data of forms
+     * ----------------------------------------------------
      */
     function validate(tax_name,rate_nmv,insurance_debtors,maximum_months){
         if(tax_name.length == 0){
             alert("Debe diligenciar el campo nombre");
         }
         else{
-            if(tax_name.length == 0){
+            if(rate_nmv.length == 0){
                 alert("Debe diligenciar el campo Tasa NMV");
             } 
             else{
-                if(insurance_debtors.length == 0){
-                    alert("Debe diligenciar el campo Tasa de seguro de deudores");
+                if(!is_numeric(rate_nmv)){
+                    alert("El campo Tasa NMV debe ser númerico");
                 }
                 else{
-                    if(maximum_months.length == 0){
-                        alert("Debe diligenciar el campo Máximo de meses");  
-                    }
+                    if(insurance_debtors.length == 0){
+                        alert("Debe diligenciar el campo Tasa de seguro de deudores");
+                    } 
                     else{
-                        return true;
+                        if(!is_numeric(insurance_debtors)){
+                            alert("El campo Tasa de seguro de deudores debe ser númerico");
+                        }
+                        else{
+                            if(maximum_months.length == 0){
+                                alert("Debe diligenciar el campo Máximo de meses");  
+                            }
+                            else{
+                                if(!is_int(maximum_months)){
+                                    alert("El campo Máximo de meses debe ser entero");
+                                }
+                                else{
+                                    return true;
+                                }
+                            }
+                        }
                     }
                 }
             }           
         }
+    }
+
+    /**
+     * Function for validate if numeric
+     * ----------------------------------------------------
+     */
+    function is_numeric(value){
+        var numerics = [".","0","1","2","3","4","5","6","7","8","9"];
+        var reply    = true;
+        for(var i = 0;i < value.length; i++){
+            if(numerics.indexOf(value[i]) == -1){
+                reply = false;
+            }
+        }
+        return reply;
+    }
+
+    /**
+     * Function for validate if is int
+     * ----------------------------------------------------
+     */
+    function is_int(value){
+        var numerics = ["0","1","2","3","4","5","6","7","8","9"];
+        var reply    = true;
+        for(var i = 0;i < value.length; i++){
+            if(numerics.indexOf(value[i]) == -1){
+                reply = false;
+            }
+        }
+        return reply;
     }
 });
 
