@@ -53,8 +53,8 @@ jQuery(document).ready(function($){
         e.preventDefault();
 
         var credit_kind     	= $("select[name='credit-kind']").val();
-        var loan_amount     	= parseInt($("input[name='loan-amount']").val());
-        var number_months   	= parseInt($("select[name='number-of-months']").val());
+        var loan_amount     	= $("input[name='loan-amount']").val();
+        var number_months   	= $("select[name='number-of-months']").val();
         var credit_kind_name 	= $("select[name='credit-kind'] option:selected").html();
 
         if(credit_kind.length == 0){
@@ -86,22 +86,34 @@ jQuery(document).ready(function($){
                                     alert("Debe diligenciar el teléfono");
                                 }
                                 else{
-                                    var quota = calculation(credit_kind_name,loan_amount,number_months);
+                                    var quota = calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months));
                                     send_email(credit_kind_name,loan_amount,number_months,quota,user_name,user_email,user_phone);
                                 }
                             }
                         }
                     }
                     else{
-                        calculation(credit_kind_name,loan_amount,number_months); 
+                        calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
                     }
                 }
             }
         }
     });
 
-    function isint(n){
-        return Number(n) === n && n % 1 === 0;
+    function isint(value){
+        var reply    = true;
+        if(value.length == 0){
+            reply = false;
+        }
+        else{
+            var numerics = ["0","1","2","3","4","5","6","7","8","9"];
+            for(var i = 0;i < value.length; i++){
+                if(numerics.indexOf(value[i]) == -1){
+                    reply = false;
+                }
+            }
+        }
+        return reply;
     }
 
     /*
