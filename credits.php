@@ -76,13 +76,12 @@ function wp_credits_settings_save(){
                 $data = array(
                     "tax_name"                  => $_POST["tax-name"],
                     "rate_nmv"                  => $_POST["rate-nmv"],
-                    "rate_insurance_debtors"    => $_POST["rate-insurance-debtors"],
                     "rate_maximum_months"       => $_POST["maximum-months"],
                     "user"                      => get_current_user_id()
                 );
                 
                 global $wpdb;
-                $results = $wpdb->insert("wp_credits",$data,array("%s","%f","%f","%d","%d"));
+                $results = $wpdb->insert("wp_credits",$data,array("%s","%f","%d","%d"));
 
                 if(!$results){
                     $reply["error"]     = true;

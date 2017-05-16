@@ -38,10 +38,6 @@
                         <input type="text" name="rate-nmv" class="regular-text filter_float" placeholder="0.00">
                     </div>
                     <div class="fieldset">
-                        <label for="rate-insurance-debtors"><b><?php _e('Tasa de seguro de deudores','wp_credits');?></b></label><br />
-                        <input type="text" name="rate-insurance-debtors" class="regular-text filter_float" placeholder="0.00">
-                    </div>
-                    <div class="fieldset">
                         <label for="maximum-months"><b><?php _e('Máximo de meses','wp_credits');?></b></label><br />
                         <input type="text" name="maximum-months" class="regular-text filter_int">
                     </div>
@@ -95,10 +91,6 @@
                     <div class="fieldset">
                         <label for="rate-nmv"><b><?php _e('Tasa NMV','wp_credits');?></b></label><br />
                         <input type="text" name="rate-nmv" class="regular-text filter_float">
-                    </div>
-                    <div class="fieldset">
-                        <label for="rate-insurance-debtors"><b><?php _e('Tasa de seguro de deudores','wp_credits');?></b></label><br />
-                        <input type="text" name="rate-insurance-debtors" class="regular-text filter_float">
                     </div>
                     <div class="fieldset">
                         <label for="maximum-months"><b><?php _e('Máximo de meses','wp_credits');?></b></label><br />

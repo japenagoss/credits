@@ -23,10 +23,9 @@ jQuery(document).ready(function($){
         var form                = $('#wp-create-credits form'),
             tax_name            = $("input[name='tax-name']",form).val(),
             rate_nmv            = $("input[name='rate-nmv']",form).val(),
-            insurance_debtors   = $("input[name='rate-insurance-debtors']",form).val(),
             maximum_months      = $("input[name='maximum-months']",form).val();
 
-        $validated = validate(tax_name,rate_nmv,insurance_debtors,maximum_months);
+        $validated = validate(tax_name,rate_nmv,maximum_months);
 
         if($validated){
             var data = form.serialize()+'&action=wp_credits_settings_save';
@@ -41,10 +40,12 @@ jQuery(document).ready(function($){
     $(".wp_credit_delete").click(function(e){
         e.preventDefault();
         var id = $(this).attr("href");
-            id = id.replace("#","");
-        
-        var data = "id="+id+"&action=wp_credit_delete";
-        send_data_by_ajax(data,false);
+            id = id.replace("#",""),
+            r  = confirm("¿Está seguro de eliminar el tipo de crédito?");
+        if(r == true){   
+            var data = "id="+id+"&action=wp_credit_delete";
+            send_data_by_ajax(data,false);
+        }
     });
 
     /**
@@ -67,10 +68,9 @@ jQuery(document).ready(function($){
         var form                = $('#wp-edit-credits form'),
             tax_name            = $("input[name='tax-name']",form).val(),
             rate_nmv            = $("input[name='rate-nmv']",form).val(),
-            insurance_debtors   = $("input[name='rate-insurance-debtors']",form).val(),
             maximum_months      = $("input[name='maximum-months']",form).val();
 
-        $validated = validate(tax_name,rate_nmv,insurance_debtors,maximum_months);
+        $validated = validate(tax_name,rate_nmv,maximum_months);
 
         if($validated){
             var data =  form.serialize()+'&action=wp_credits_settings_update';
@@ -111,7 +111,6 @@ jQuery(document).ready(function($){
                         $("input[name='tax-id']",form).val(response.data.tax_id);
                         $("input[name='tax-name']",form).val(response.data.tax_name);
                         $("input[name='rate-nmv']",form).val(response.data.rate_nmv);
-                        $("input[name='rate-insurance-debtors']",form).val(response.data.rate_insurance_debtors);
                         $("input[name='maximum-months']",form).val(response.data.rate_maximum_months);
                         $("input[name='maximum-months']",form).val(response.data.rate_maximum_months);
                     }
@@ -152,7 +151,7 @@ jQuery(document).ready(function($){
      * Validate data of forms
      * ----------------------------------------------------
      */
-    function validate(tax_name,rate_nmv,insurance_debtors,maximum_months){
+    function validate(tax_name,rate_nmv,maximum_months){
         if(tax_name.length == 0){
             alert("Debe diligenciar el campo nombre");
         }
@@ -169,34 +168,19 @@ jQuery(document).ready(function($){
                         alert("El campo Tasa NMV debe ser mayor a 0");
                     }
                     else{
-                        if(insurance_debtors.length == 0){
-                            alert("Debe diligenciar el campo Tasa de seguro de deudores");
-                        } 
+                        if(maximum_months.length == 0){
+                            alert("Debe diligenciar el campo Máximo de meses");  
+                        }
                         else{
-                            if(!is_numeric(insurance_debtors)){
-                                alert("El campo Tasa de seguro de deudores debe ser númerico");
+                            if(maximum_months == "0"){
+                                alert("El campo Máximo de meses debe ser mayor a 0");
                             }
                             else{
-                                if(insurance_debtors == "0"){
-                                    alert("El campo Tasa de seguro de deudores debe ser mayor a 0");
+                                if(!is_int(maximum_months)){
+                                    alert("El campo Máximo de meses debe ser entero");
                                 }
                                 else{
-                                    if(maximum_months.length == 0){
-                                        alert("Debe diligenciar el campo Máximo de meses");  
-                                    }
-                                    else{
-                                        if(maximum_months == "0"){
-                                            alert("El campo Máximo de meses debe ser mayor a 0");
-                                        }
-                                        else{
-                                            if(!is_int(maximum_months)){
-                                                alert("El campo Máximo de meses debe ser entero");
-                                            }
-                                            else{
-                                                return true;
-                                            }
-                                        }
-                                    }
+                                    return true;
                                 }
                             }
                         }
