@@ -2,9 +2,8 @@ jQuery(document).ready(function($){
 
     var tax_name            = "";
     var rate_nmv            = 0;
-    var insurance_debtors   = 0;
     var maximum_months      = 0;
-    var send_to_agent       = false;
+    var quota               = 0;
 
     /*
      * Select the kind of credit
@@ -17,7 +16,6 @@ jQuery(document).ready(function($){
             var credit          = $("#wp_credit_"+id);
             tax_name            = credit.children(".tax_name").text();
             rate_nmv            = parseFloat(credit.children(".rate_nmv").text());
-            insurance_debtors   = parseFloat(credit.children(".rate_insurance_debtors").text());
             maximum_months      = parseInt(credit.children(".rate_maximum_months").text());
 
             var months = "";
@@ -33,15 +31,9 @@ jQuery(document).ready(function($){
      * Select option for send email to a agent
      * ----------------------------------------------------------------------------
      */
-    $("input[name='send-to-agent']").click(function(){
-        if($(this).is(":checked")){
-            $("#wp-user-information").show();
-            send_to_agent = true;
-        }
-        else{
-            $("#wp-user-information").hide();
-            send_to_agent = false;
-        }
+    $("#wp_show_email_form").click(function(e){
+        e.preventDefault();
+        $("#wp-user-information").show();
     });
         
 
@@ -52,12 +44,12 @@ jQuery(document).ready(function($){
     $("#wp_credit_calculate").click(function(e){
         e.preventDefault();
 
-        var credit_kind     	= $("select[name='credit-kind']").val();
-        var loan_amount     	= $("input[name='loan-amount']").val();
-        var number_months   	= $("select[name='number-of-months']").val();
-        var credit_kind_name 	= $("select[name='credit-kind'] option:selected").html();
+        var credit_kind         = $("select[name='credit-kind']").val();
+        var loan_amount         = $("input[name='loan-amount']").val();
+        var number_months       = $("select[name='number-of-months']").val();
+        var credit_kind_name    = $("select[name='credit-kind'] option:selected").html();
 
-        if(credit_kind.length == 0){
+        if(credit_kind == 0){
             alert("Debe elegir el tipo de crédito");
         }
         else{
@@ -69,37 +61,16 @@ jQuery(document).ready(function($){
                     alert("El número debe ser mayor a cero.");
                 }
                 else{
-                    if(send_to_agent){
-                        var user_name   = $("input[name='wp-user-name']").val();
-                        var user_email  = $("input[name='wp-user-email']").val();
-                        var user_phone  = $("input[name='wp-user-phone']").val();
-
-                        if(user_name.length == 0){
-                            alert("Debe diligenciar el nombre");
-                        }
-                        else{
-                            if(!validate_email(user_email)){
-                                alert("Ingrese un correo electrónico válido"); 
-                            }
-                            else{
-                                if(user_phone.length == 0){
-                                    alert("Debe diligenciar el teléfono");
-                                }
-                                else{
-                                    var quota = calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months));
-                                    send_email(credit_kind_name,loan_amount,number_months,quota,user_name,user_email,user_phone);
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
-                    }
+                    calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
                 }
             }
         }
     });
 
+    /*
+     * Validate int number
+     * ----------------------------------------------------------------------------
+     */
     function isint(value){
         var reply    = true;
         if(value.length == 0){
@@ -118,22 +89,19 @@ jQuery(document).ready(function($){
 
     /*
      * Do the calculation
-     ------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------
      */
     function calculation(credit_kind_name,loan_amount,number_months){
-        var rate   = (rate_nmv + insurance_debtors) / 100;
-        var quota  = 0;
+        var rate   = rate_nmv / 100;
         if(rate > 0){
             quota  = loan_amount * (rate * Math.pow((rate + 1),number_months))/(Math.pow((rate+1),number_months)-1);
-			
-			$("#wp_credits_result_kind_credit span").html(credit_kind_name);
-			$("#wp_credits_result_amount span").html(loan_amount);
-			$("#wp_credits_result_months span").html(number_months);
-			$("#wp_credits_result_quota span").html(Math.round(quota));	            
+            
+            $("#wp_credits_result_kind_credit span").html(credit_kind_name);
+            $("#wp_credits_result_amount span").html(loan_amount);
+            $("#wp_credits_result_months span").html(number_months);
+            $("#wp_credits_result_quota span").html(Math.round(quota));             
             $("#wp_credits_result").show();
         }
-
-        return quota;
     }
 
     /*
@@ -146,22 +114,60 @@ jQuery(document).ready(function($){
     }
 
     /*
+     * Send email to agent
+     * ----------------------------------------------------------------------------
+     */
+    $("body").on("click","#wp_send_email",function(e){
+        e.preventDefault();
+        var user_name       = $("input[name='wp-user-name']").val();
+        var user_email      = $("input[name='wp-user-email']").val();
+        var user_phone      = $("input[name='wp-user-phone']").val();
+        var user_city       = $("input[name='wp-user-city']").val();
+        var loan_amount     = $("input[name='loan-amount']").val();
+        var number_months   = $("select[name='number-of-months']").val();
+
+        if(user_name.length == 0){
+            alert("Debe diligenciar el nombre");
+        }
+        else{
+            if(!validate_email(user_email)){
+                alert("Ingrese un correo electrónico válido"); 
+            }
+            else{
+                if(user_phone.length == 0){
+                    alert("Debe diligenciar el teléfono");
+                }
+                else{
+                    if(user_city.length == 0){
+                        alert("Debe diligenciar la ciudad");
+                    }
+                    else{
+                        send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city);
+                    }
+                }
+            }
+        }
+    });
+       
+
+    /*
      * Send the email
      * ----------------------------------------------------------------------------
      */
-    function send_email(credit_kind_name,loan_amount,number_months,quota,user_name,user_email,user_phone){
-        $.ajax({
+    function send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city){
+         $.ajax({
             type:"POST",
             url:my_ajax_object.ajaxurl,
             data:{
-            	credit_kind_name:credit_kind_name,
-            	loan_amount:loan_amount,
-            	number_months:number_months,
-            	quota:quota,
-            	user_name:user_name,
-            	user_email:user_email,
-            	user_phone:user_phone,
-            	action:"wp_credit_send_email"
+                credit_kind_name:tax_name,
+                loan_amount:loan_amount,
+                number_months:number_months,
+                quota:quota,
+                user_name:user_name,
+                user_email:user_email,
+                user_phone:user_phone,
+                user_city:user_city,
+                action:"wp_credit_send_email"
             },
             dataType:"json",
             success:function(response){

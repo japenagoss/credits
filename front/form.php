@@ -1,71 +1,80 @@
-<form>
-    <div>
-        <label for="credit-kind"><?php _e('Tipo de crédito','wp_credits');?></label>
-        <select name="credit-kind">
-            <option></option>
-            <?php foreach ($credits as $credit => $value):?>
-                <option value="<?php echo $value->tax_id;?>"><?php echo $value->tax_name;?></option>
-            <?php endforeach;?>
-        </select>
-    </div>
-    <div>
-        <label for="loan-amount"><?php _e('Valor del préstamo','wp_credits');?></label>
-        <input type="text" name="loan-amount">
-    </div>
-    <div>
-        <input type="checkbox" name="send-to-agent">
-        <label for="send-to-agent"><?php _e('Enviar mis datos a un asesor para obetener más información acerca del crédito.','wp_credits');?></label>
-    </div>
-    <div>
-        <label for="number-of-months"><?php _e('Plazo (en meses)','wp_credits');?></label>
-        <select name="number-of-months">
-            <option></option>
-        </select>
-    </div>
+<div id="body-container">
     
-    <br />
-    
-    <div id="wp-user-information">
-        <div>
-            <label for="wp-user-name"><?php _e('Nombre:','wp_credits');?></label>
-            <input type="text" name="wp-user-name">
-        </div>
-
-        <div>
-            <label for="wp-user-email"><?php _e('Correo electrónico:','wp_credits');?></label>
-            <input type="email" name="wp-user-email">
-        </div>
-
-        <div>
-            <label for="wp-user-phone"><?php _e('Teléfono:','wp_credits');?></label>
-            <input type="email" name="wp-user-phone">
-        </div>
-    </div>
-
     <div>
-        <button id="wp_credit_calculate"><?php _e('Calcular','wp_credits');?></button>
-    </div>
-</form>
+        <div>
+            <div id="form-container">
+                <header>
+                    <h1><?php _e("Simulador de crédito Coofamiliar","wp_credits");?></h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris magna nunc, scelerisque nec tristique eu, posuere vitae massa. Sed non vulputate ligula, eu auctor neque.</p>
+                </header>
 
-<br />
-<br />
+                <form>
+                    <div>
+                        <select name="credit-kind">
+                            <option value="0"><?php _e("Tipo de crédito","wp_credits");?></option>
+                            <?php foreach ($credits as $credit => $value):?>
+                                <option value="<?php echo $value->tax_id;?>"><?php echo $value->tax_name;?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" name="loan-amount" placeholder="<?php _e("Valor del crédito","wp_credits");?>">
+                    </div>
+                    <div>
+                        <select name="number-of-months">
+                            <option value="0"><?php _e("Plazo (en meses)","wp_credits");?></option>
+                        </select>
+                    </div>
 
-<div id="wp_credits_result">
-    <div>
-        <h2 id="wp_credits_result_kind_credit"><?php _e('Tipo de crédito: ','wp_credits');?><span></span></h2>
-        <div id="wp_credits_result_amount"><?php _e('Valor del préstamo: ','wp_credits');?><span></span></div>
-        <div id="wp_credits_result_months"><?php _e('Número de meses: ','wp_credits');?><span></span></div>
-        <div id="wp_credits_result_quota"><?php _e('Cuota mensual: ','wp_credits');?><span></span></div>
-    </div>
-</div>
+                    <div>
+                        <button id="wp_credit_calculate" class="button"><?php _e("Calcular","wp_credits");?></button>
+                    </div>
 
-<div id="wp_credits_data">
-    <?php foreach ($credits as $credit => $value):?>
-        <div id="wp_credit_<?php echo $value->tax_id;?>">
-            <div class="tax_name"><?php echo $value->tax_name;?></div>
-            <div class="rate_nmv"><?php echo $value->rate_nmv;?></div>
-            <div class="rate_insurance_debtors"><?php echo $value->rate_insurance_debtors;?></div>
-            <div class="rate_maximum_months"><?php echo $value->rate_maximum_months;?></div>
+                    <div id="wp_credits_result">
+                        <div>
+                            <h2 id="wp_credits_result_kind_credit"><span>Crédito educativo</span></h2>
+                            <div id="wp_credits_result_amount" class="one"><?php _e("Valor del préstamo","wp_credits");?><span></span></div>
+                            <div id="wp_credits_result_months" class="two"><?php _e("Plazo","wp_credits");?><span></span></div>
+                            <div id="wp_credits_result_quota" class="one"><?php _e("Cuota mensual","wp_credits");?><span></span></div>
+                        </div>
+
+                        <button id="wp_show_email_form" class="button"><?php _e("Enviar mis datos un asesor","wp_credits");?></button>
+                    </div>
+                    
+                    <div id="wp-user-information">
+                        <div>
+                            <div>
+                                <input type="text" name="wp-user-name" class="user-contact-control" placeholder="<?php _e("Nombre completo","wp_credits");?>">
+                            </div>
+                            <div>
+                                <input type="text" name="wp-user-phone" class="user-contact-control" placeholder="Teléfono">
+                            </div>
+                            <div>
+                                <input type="email" name="wp-user-email" class="user-contact-control" placeholder="<?php _e("Email","wp_credits");?>">
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="text" name="wp-user-city" class="user-contact-control" placeholder="<?php _e("Ciudad","wp_credits");?>">
+                                </div>
+                            </div>
+
+                            <button id="wp_send_email" class="button"><?php _e("Enviar","wp_credits");?></button>
+
+                        </div>
+                    </div>
+                </form>
+
+                <div id="wp_credits_data">
+                    <?php foreach ($credits as $credit => $value):?>
+                        <div id="wp_credit_<?php echo $value->tax_id;?>">
+                            <div class="tax_name"><?php echo $value->tax_name;?></div>
+                            <div class="rate_nmv"><?php echo $value->rate_nmv;?></div>
+                            <div class="rate_maximum_months"><?php echo $value->rate_maximum_months;?></div>
+                        </div>
+                    <?php endforeach;?>
+                </div>
+            </div>
         </div>
-    <?php endforeach;?>
+    </div>
+
 </div>
