@@ -83,8 +83,8 @@ jQuery(document).ready(function($){
      * Save agents
      * ----------------------------------------------------
      */
-    $('#wp_agents_create').click(function(){
-        var data =  $('#wp-create-agents form').serialize()+'&action=wp_credits_create_agent';
+    $('#wp_save_settings').click(function(){
+        var data =  $('#wp-settings form').serialize()+'&action=wp_credits_create_agent';
         send_data_by_ajax(data,false);
     });
 

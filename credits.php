@@ -217,6 +217,7 @@ function wp_credits_settings_update(){
  * Send email to agent
  * --------------------------------------------------------------------
  */
+add_action("wp_ajax_nopriv_wp_credit_send_email", "wp_credit_send_email");
 add_action("wp_ajax_wp_credit_send_email", "wp_credit_send_email");
 function wp_credit_send_email(){
     $html  = "<h2>".__("Tipo de crédito: ","wp_credits").$_POST["credit_kind_name"]."</h2>";
@@ -238,11 +239,28 @@ function wp_credit_send_email(){
         array_push($emails, $email);
     }
 
-    wp_mail(
+    $sent = wp_mail(
         $emails, 
         __("Un usuario desea más información acerca de un crédito","wp_credits"), 
         $html
     );
+
+    if($sent){
+        echo json_encode(
+            array(
+                "error"     => false,
+                "message"   => __("La solicitud ha sido enviada con éxito. Pronto un asesor se comunicará con usted.","wp_credits")
+            )
+        );
+    }
+    else{
+        echo json_encode(
+            array(
+                "error"     => true,
+                "message"   => __("Hubo un error enviando los datos. Inténtelo de nuevo por favor.","wp_credits")
+            )
+        );
+    }
     
     wp_die();
 }
@@ -268,11 +286,14 @@ function wp_credits_create_agent(){
         }
     }
 
-    $emails = maybe_serialize($emails);
+    $emails   = maybe_serialize($emails);
+    $top_text = $_POST["top-text"];
+
     update_option("wp_credit_agents",$emails);
+    update_option("wp_top_text",$top_text);
 
     $reply["error"]     = false;
-    $reply["message"]   = __("Se guardaron los agentes","wp_credits");
+    $reply["message"]   = __("Se guardaron los ajustes","wp_credits");
 
     echo json_encode($reply);
     wp_die();

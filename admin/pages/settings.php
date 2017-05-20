@@ -17,7 +17,7 @@
                     <a title="" href="#wp-edit-credits"><?php _e('Editar créditos','wp_credits');?></a>
                 </li>
                 <li>
-                    <a title="" href="#wp-create-agents"><?php _e('Agentes','wp_credits');?></a>
+                    <a title="" href="#wp-settings"><?php _e('Configuraciones','wp_credits');?></a>
                 </li>
             </ul>
         </section>
@@ -105,7 +105,7 @@
                 
             </div>
 
-            <div id="wp-create-agents" class='content-hide'>
+            <div id="wp-settings" class='content-hide'>
                 <form>
                     <div class="fieldset">
                         <label for="agents"><b><?php _e('Registrar agentes','wp_credits');?></b></label><br />
@@ -127,8 +127,14 @@
                         ?>
                         <textarea name="agents" cols="40" rows="10"><?php echo $emails;?></textarea>
                     </div>
+                    
                     <div class="fieldset">
-                        <button id="wp_agents_create" type="button" class="button-primary">
+                        <label for="top-text"><b><?php _e('Texto en el encabezado','wp_credits');?></b></label><br />
+                        <textarea name="top-text" cols="40" rows="10"><?php echo get_option("wp_top_text");?></textarea>
+                    </div>
+
+                    <div class="fieldset">
+                        <button id="wp_save_settings" type="button" class="button-primary">
                             <?php _e('Guardar','wp_credits');?>
                         </button>
                     </div>

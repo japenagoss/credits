@@ -1,11 +1,13 @@
+<div id="logo"></div>
+
 <div id="body-container">
-    
+
     <div>
         <div>
             <div id="form-container">
                 <header>
                     <h1><?php _e("Simulador de crédito Coofamiliar","wp_credits");?></h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris magna nunc, scelerisque nec tristique eu, posuere vitae massa. Sed non vulputate ligula, eu auctor neque.</p>
+                    <p><?php echo get_option("wp_top_text");?></p>
                 </header>
 
                 <form>
@@ -42,6 +44,7 @@
                     </div>
                     
                     <div id="wp-user-information">
+                        <p><?php _e("Completa el siguiente formulario para enviar tu consulta a un asesor y obtener más información acerca del crédito.","wp_credits");?></p>
                         <div>
                             <div>
                                 <input type="text" name="wp-user-name" class="user-contact-control" placeholder="<?php _e("Nombre completo","wp_credits");?>">

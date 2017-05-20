@@ -35,6 +35,17 @@ body{
     background-position: right top;
 }
 
+#logo{
+    background-image: url(images/logo.png);
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    width: 280px;
+    height: 70px;
+    z-index: 1000;
+    background-size: contain;
+}
+
 #body-container > div{
     display: table;
     height: 100%;
@@ -192,6 +203,16 @@ body{
     text-align: center;
 }
 
+#wp-user-information p{
+    margin: 60px auto 20px auto;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+}
+
 #wp-user-information > div{
     display: inline-block;
     width: 90%;
@@ -213,6 +234,10 @@ body{
     font-size: 14px;
     font-weight: 300;
     font-style: italic;
+    padding: 0px 10px;
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;  
 }
 
 #wp_send_email{

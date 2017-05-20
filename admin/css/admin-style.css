@@ -50,7 +50,8 @@
 }
 
 #wp_credits_save,
-#wp_credits_update{
+#wp_credits_update,
+#wp_save_settings{
     font-family: Arial,Verdana,sans-serif;
     padding: 0 7px;
     height: 23px;

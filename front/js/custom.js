@@ -50,15 +50,15 @@ jQuery(document).ready(function($){
         var credit_kind_name    = $("select[name='credit-kind'] option:selected").html();
 
         if(credit_kind == 0){
-            alert("Debe elegir el tipo de crédito");
+            swal("Debe elegir el tipo de crédito")
         }
         else{
             if(!isint(loan_amount)){
-                alert("Valor del préstamo debe ser un número entero");
+                swal("Valor del préstamo debe ser un número entero");
             }
             else{
                 if(loan_amount < 0 || loan_amount == 0){
-                    alert("El número debe ser mayor a cero.");
+                    swal("El número debe ser mayor a cero.");
                 }
                 else{
                     calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
@@ -127,19 +127,19 @@ jQuery(document).ready(function($){
         var number_months   = $("select[name='number-of-months']").val();
 
         if(user_name.length == 0){
-            alert("Debe diligenciar el nombre");
+            swal("Debe diligenciar el nombre");
         }
         else{
             if(!validate_email(user_email)){
-                alert("Ingrese un correo electrónico válido"); 
+                swal("Ingrese un correo electrónico válido"); 
             }
             else{
                 if(user_phone.length == 0){
-                    alert("Debe diligenciar el teléfono");
+                    swal("Debe diligenciar el teléfono");
                 }
                 else{
                     if(user_city.length == 0){
-                        alert("Debe diligenciar la ciudad");
+                        swal("Debe diligenciar la ciudad");
                     }
                     else{
                         send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city);
@@ -167,11 +167,17 @@ jQuery(document).ready(function($){
                 user_email:user_email,
                 user_phone:user_phone,
                 user_city:user_city,
-                action:"wp_credit_send_email"
+                action:"wp_credit_send_email",
             },
             dataType:"json",
             success:function(response){
-                
+                alert(response.error);
+                if(response.error){
+                    sweetAlert("Buen trabajo!", response.message, "error");
+                }
+                else{
+                    sweetAlert("Buen trabajo!", response.message, "success");
+                }
             }
         });
     }
