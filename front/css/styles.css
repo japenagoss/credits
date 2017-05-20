@@ -190,6 +190,7 @@ body{
 #wp_credits_result{
     margin-top: 50px;
     font-family: 'Lato', sans-serif;
+    position: relative;
 }
 
 #wp_credits_result h2{
@@ -234,6 +235,7 @@ body{
 
 #wp-user-information{
     text-align: center;
+    position: relative;
 }
 
 #wp-user-information p{

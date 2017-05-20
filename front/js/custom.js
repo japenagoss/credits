@@ -34,6 +34,9 @@ jQuery(document).ready(function($){
     $("#wp_show_email_form").click(function(e){
         e.preventDefault();
         $("#wp-user-information").show();
+        $("body").stop(true,true).animate({                
+            scrollTop: $("#wp-user-information").offset().top
+        },1000);
     });
         
 
@@ -62,6 +65,9 @@ jQuery(document).ready(function($){
                 }
                 else{
                     calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
+                    $("body").stop(true,true).animate({                
+                        scrollTop: $("#wp_credits_result").offset().top
+                    },1000);
                 }
             }
         }
@@ -193,7 +199,7 @@ jQuery(document).ready(function($){
                     sweetAlert("Error!", response.message, "error");
                 }
                 else{
-                    sweetAlert("Buen trabajo!", response.message, "success");
+                    sweetAlert("Muchas gracias!", response.message, "success");
                 }
             }
         });
