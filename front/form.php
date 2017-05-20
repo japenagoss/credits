@@ -1,3 +1,5 @@
+
+<div id="loading"><div><img src="<?php echo URL_WP_CREDITS."/front/css/images/loading.svg";?>"></div></div>
 <div id="logo"></div>
 
 <div id="body-container">

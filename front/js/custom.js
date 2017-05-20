@@ -171,7 +171,8 @@ jQuery(document).ready(function($){
      * ----------------------------------------------------------------------------
      */
     function send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city){
-         $.ajax({
+        $("#loading").show();
+        $.ajax({
             type:"POST",
             url:my_ajax_object.ajaxurl,
             data:{
@@ -187,6 +188,7 @@ jQuery(document).ready(function($){
             },
             dataType:"json",
             success:function(response){
+                $("#loading").hide();
                 if(response.error){
                     sweetAlert("Error!", response.message, "error");
                 }
