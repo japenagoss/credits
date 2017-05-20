@@ -7,6 +7,7 @@
     <div>
         <div>
             <div id="form-container">
+                <div id="logo_2"></div>
                 <header>
                     <h1><?php _e("Simulador de crédito Coofamiliar","wp_credits");?></h1>
                     <p><?php echo get_option("wp_top_text");?></p>
