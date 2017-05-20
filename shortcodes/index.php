@@ -8,8 +8,10 @@ function wp_credits($atts){
     wp_enqueue_style("wp_credits-alerts",URL_WP_CREDITS."/front/css/sweetalert.css", array(),"");
     wp_enqueue_style("wp_credits-css",URL_WP_CREDITS."/front/css/styles.css", array(),"1.0");
 
+
+    wp_enqueue_script("wp_credits-priceformat",URL_WP_CREDITS."/front/js/jquery.priceformat.min.js", array("jquery"), "",false);
     wp_enqueue_script("wp_credits-alerts",URL_WP_CREDITS."/front/js/sweetalert.min.js", array("jquery"), "",false);
-    wp_enqueue_script("wp_credits-js",URL_WP_CREDITS."/front/js/custom.js", array("jquery","wp_credits-alerts"), "1.0",false);
+    wp_enqueue_script("wp_credits-js",URL_WP_CREDITS."/front/js/custom.js", array("jquery","wp_credits-alerts","wp_credits-priceformat"), "1.0",false);
     wp_localize_script("wp_credits-js", "my_ajax_object",array( "ajaxurl" => admin_url("admin-ajax.php" )));
 
     require DIR_WP_CREDITS."/front/form.php";

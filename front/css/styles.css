@@ -59,7 +59,7 @@ body{
 
 #form-container{
     max-width: 730px;
-    margin: auto;
+    margin: 20px auto 20px auto;
     width: 90%;
 }
 #form-container header{

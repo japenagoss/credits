@@ -95,11 +95,27 @@ jQuery(document).ready(function($){
         var rate   = rate_nmv / 100;
         if(rate > 0){
             quota  = loan_amount * (rate * Math.pow((rate + 1),number_months))/(Math.pow((rate+1),number_months)-1);
-            
+
             $("#wp_credits_result_kind_credit span").html(credit_kind_name);
-            $("#wp_credits_result_amount span").html(loan_amount);
-            $("#wp_credits_result_months span").html(number_months);
-            $("#wp_credits_result_quota span").html(Math.round(quota));             
+            
+            $("#wp_credits_result_amount span").html(loan_amount).priceFormat({
+                prefix: "COP$ ",
+                centsLimit: 0,
+                thousandsSeparator: "."
+            });
+            
+            if(number_months == 1){
+                $("#wp_credits_result_months span").html(number_months+" mes");
+            }
+            else{
+                $("#wp_credits_result_months span").html(number_months+" meses");
+            }
+            
+            $("#wp_credits_result_quota span").html(Math.round(quota)).priceFormat({
+                prefix: "COP$ ",
+                centsLimit: 0,
+                thousandsSeparator: "."
+            });             
             $("#wp_credits_result").show();
         }
     }
