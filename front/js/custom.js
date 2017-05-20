@@ -50,15 +50,15 @@ jQuery(document).ready(function($){
         var credit_kind_name    = $("select[name='credit-kind'] option:selected").html();
 
         if(credit_kind == 0){
-            swal("Debe elegir el tipo de crédito")
+            sweetAlert("Error!", "Debe elegir el tipo de crédito.", "error");
         }
         else{
             if(!isint(loan_amount)){
-                swal("Valor del préstamo debe ser un número entero");
+                sweetAlert("Error!", "Valor del crédito debe ser un número entero.", "error");
             }
             else{
                 if(loan_amount < 0 || loan_amount == 0){
-                    swal("El número debe ser mayor a cero.");
+                    sweetAlert("Error!", "El número debe ser mayor a cero.", "error");
                 }
                 else{
                     calculation(credit_kind_name,parseInt(loan_amount),parseInt(number_months)); 
@@ -143,19 +143,19 @@ jQuery(document).ready(function($){
         var number_months   = $("select[name='number-of-months']").val();
 
         if(user_name.length == 0){
-            swal("Debe diligenciar el nombre");
+            sweetAlert("Error!", "Debe diligenciar el nombre.", "error");
         }
         else{
-            if(!validate_email(user_email)){
-                swal("Ingrese un correo electrónico válido"); 
+            if(user_phone.length == 0){
+                sweetAlert("Error!", "Debe diligenciar el teléfono.", "error");
             }
             else{
-                if(user_phone.length == 0){
-                    swal("Debe diligenciar el teléfono");
+                if(!validate_email(user_email)){
+                    sweetAlert("Error!", "Ingrese un correo electrónico válido.", "error");
                 }
                 else{
                     if(user_city.length == 0){
-                        swal("Debe diligenciar la ciudad");
+                        sweetAlert("Error!", "Debe diligenciar la ciudad.", "error");
                     }
                     else{
                         send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city);
@@ -187,9 +187,8 @@ jQuery(document).ready(function($){
             },
             dataType:"json",
             success:function(response){
-                alert(response.error);
                 if(response.error){
-                    sweetAlert("Buen trabajo!", response.message, "error");
+                    sweetAlert("Error!", response.message, "error");
                 }
                 else{
                     sweetAlert("Buen trabajo!", response.message, "success");
