@@ -339,4 +339,8 @@ body{
     #wp_send_email{
         width: 100%;
     }
+
+    #conta_terms_conditions{
+        font-size: 17px;
+    }
 }
