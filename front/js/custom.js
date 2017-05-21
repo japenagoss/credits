@@ -22,6 +22,7 @@ jQuery(document).ready(function($){
                 months += "<option value='"+i+"'>"+i+"</option>";
             }
             $("select[name='number-of-months']").html(months);
+            $("input[name='rate-nmv']").val(rate_nmv);
         }
 
     });

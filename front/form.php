@@ -30,6 +30,9 @@
                             <option value="0"><?php _e("Plazo (en meses)","wp_credits");?></option>
                         </select>
                     </div>
+                    <div>
+                        <input type="text" readonly="readonly" name="rate-nmv" placeholder="<?php _e("Valor de interés","wp_credits");?>">
+                    </div>
 
                     <div>
                         <button id="wp_credit_calculate" class="button"><?php _e("Calcular","wp_credits");?></button>
