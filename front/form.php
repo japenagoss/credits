@@ -73,6 +73,15 @@
                     </div>
                 </form>
 
+                <div id="conta_terms_conditions">
+                    <a href="javascript:;" data-fancybox data-src="#terms_conditions"><?php _e("Términos y condiciones","wp_credits");?></a>
+                    <div class="hidden">
+                        <div id="terms_conditions">
+                        <?php echo get_option("wp_cont_terms");?>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="wp_credits_data">
                     <?php foreach ($credits as $credit => $value):?>
                         <div id="wp_credit_<?php echo $value->tax_id;?>">

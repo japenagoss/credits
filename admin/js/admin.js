@@ -84,7 +84,7 @@ jQuery(document).ready(function($){
      * ----------------------------------------------------
      */
     $('#wp_save_settings').click(function(){
-        var data =  $('#wp-settings form').serialize()+'&action=wp_credits_create_agent';
+        var data =  $('#wp-settings form').serialize()+'&action=wp_credits_settings';
         send_data_by_ajax(data,false);
     });
 

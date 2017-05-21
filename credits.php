@@ -220,17 +220,6 @@ function wp_credits_settings_update(){
 add_action("wp_ajax_nopriv_wp_credit_send_email", "wp_credit_send_email");
 add_action("wp_ajax_wp_credit_send_email", "wp_credit_send_email");
 function wp_credit_send_email(){
-    
-    /*$html  = "<h2>".__("Tipo de crédito: ","wp_credits").$_POST["credit_kind_name"]."</h2>";
-    $html .= "<div>".__("Valor del préstamo: ","wp_credits").$_POST["loan_amount"]."</div>";
-    $html .= "<div>".__("Número de meses: ","wp_credits").$_POST["number_months"]."</div>";
-    $html .= "<div>".__("Cuota mensual: ","wp_credits").$_POST["quota"]."</div>";
-    $html .= "<br /><br />";
-    $html .= "<h2>".__("Datos de la persona","wp_credits")."</h2>";
-    $html .= "<div>".__("Nombre: ","wp_credits").$_POST["user_name"]."</div>";
-    $html .= "<div>".__("Email: ","wp_credits").$_POST["user_email"]."</div>";
-    $html .= "<div>".__("Teléfono: ","wp_credits").$_POST["user_phone"]."</div>";
-    $html .= "<div>".__("Ciudad: ","wp_credits").$_POST["user_city"]."</div>";*/
 
     $html = wp_credit_email_template(
             $_POST["credit_kind_name"],
@@ -300,8 +289,8 @@ function wp_credit_email_template($credit_name,$loan_amount,$number_months,$quot
  * Save agents
  * --------------------------------------------------------------------
  */
-add_action("wp_ajax_wp_credits_create_agent", "wp_credits_create_agent");
-function wp_credits_create_agent(){
+add_action("wp_ajax_wp_credits_settings", "wp_credits_settings");
+function wp_credits_settings(){
     $reply      = array();
     $agents     = explode("\r\n", $_POST["agents"]);
     $emails     = array();
@@ -312,11 +301,13 @@ function wp_credits_create_agent(){
         }
     }
 
-    $emails   = maybe_serialize($emails);
-    $top_text = $_POST["top-text"];
+    $emails     = maybe_serialize($emails);
+    $top_text   = $_POST["top-text"];
+    $cond_terms = $_POST["cond-terms"];
 
     update_option("wp_credit_agents",$emails);
     update_option("wp_top_text",$top_text);
+    update_option("wp_cont_terms",$cond_terms);
 
     $reply["error"]     = false;
     $reply["message"]   = __("Se guardaron los ajustes","wp_credits");
