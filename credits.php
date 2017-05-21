@@ -220,7 +220,8 @@ function wp_credits_settings_update(){
 add_action("wp_ajax_nopriv_wp_credit_send_email", "wp_credit_send_email");
 add_action("wp_ajax_wp_credit_send_email", "wp_credit_send_email");
 function wp_credit_send_email(){
-    $html  = "<h2>".__("Tipo de crédito: ","wp_credits").$_POST["credit_kind_name"]."</h2>";
+    
+    /*$html  = "<h2>".__("Tipo de crédito: ","wp_credits").$_POST["credit_kind_name"]."</h2>";
     $html .= "<div>".__("Valor del préstamo: ","wp_credits").$_POST["loan_amount"]."</div>";
     $html .= "<div>".__("Número de meses: ","wp_credits").$_POST["number_months"]."</div>";
     $html .= "<div>".__("Cuota mensual: ","wp_credits").$_POST["quota"]."</div>";
@@ -229,7 +230,18 @@ function wp_credit_send_email(){
     $html .= "<div>".__("Nombre: ","wp_credits").$_POST["user_name"]."</div>";
     $html .= "<div>".__("Email: ","wp_credits").$_POST["user_email"]."</div>";
     $html .= "<div>".__("Teléfono: ","wp_credits").$_POST["user_phone"]."</div>";
-    $html .= "<div>".__("Ciudad: ","wp_credits").$_POST["user_city"]."</div>";
+    $html .= "<div>".__("Ciudad: ","wp_credits").$_POST["user_city"]."</div>";*/
+
+    $html = wp_credit_email_template(
+            $_POST["credit_kind_name"],
+            $_POST["loan_amount"],
+            $_POST["number_months"],
+            $_POST["quota"],
+            $_POST["user_name"],
+            $_POST["user_email"],
+            $_POST["user_phone"],
+            $_POST["user_city"]
+        );
 
     $agents_emails  = get_option("wp_credit_agents");
     $agents_emails  = maybe_unserialize($agents_emails);
@@ -265,10 +277,24 @@ function wp_credit_send_email(){
     wp_die();
 }
 
+/*
+ * HTML format for the emails
+ * --------------------------------------------------------------------
+ */
 function email_set_content_type(){
     return "text/html";
 }
 add_filter( "wp_mail_content_type","email_set_content_type" );
+
+/*
+ * HTML template for the email
+ * --------------------------------------------------------------------
+ */
+function wp_credit_email_template($credit_name,$loan_amount,$number_months,$quota,$user_name,$user_email,$user_phone,$user_city){
+    ob_start();
+    require DIR_WP_CREDITS."/admin/pages/email.php";
+    return ob_get_clean();
+}
 
 /*
  * Save agents

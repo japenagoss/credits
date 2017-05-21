@@ -3,7 +3,6 @@ jQuery(document).ready(function($){
     var tax_name            = "";
     var rate_nmv            = 0;
     var maximum_months      = 0;
-    var quota               = 0;
 
     /*
      * Select the kind of credit
@@ -100,7 +99,7 @@ jQuery(document).ready(function($){
     function calculation(credit_kind_name,loan_amount,number_months){
         var rate   = rate_nmv / 100;
         if(rate > 0){
-            quota  = loan_amount * (rate * Math.pow((rate + 1),number_months))/(Math.pow((rate+1),number_months)-1);
+            var quota  = loan_amount * (rate * Math.pow((rate + 1),number_months))/(Math.pow((rate+1),number_months)-1);
 
             $("#wp_credits_result_kind_credit span").html(credit_kind_name);
             
@@ -145,7 +144,8 @@ jQuery(document).ready(function($){
         var user_email      = $("input[name='wp-user-email']").val();
         var user_phone      = $("input[name='wp-user-phone']").val();
         var user_city       = $("input[name='wp-user-city']").val();
-        var loan_amount     = $("input[name='loan-amount']").val();
+        var loan_amount     = $("#wp_credits_result_amount span").text();
+        var quota           = $("#wp_credits_result_quota span").text();
         var number_months   = $("select[name='number-of-months']").val();
 
         if(user_name.length == 0){
@@ -164,7 +164,7 @@ jQuery(document).ready(function($){
                         sweetAlert("Error!", "Debe diligenciar la ciudad.", "error");
                     }
                     else{
-                        send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city);
+                        send_email(loan_amount,quota,number_months,user_name,user_email,user_phone,user_city);
                     }
                 }
             }
@@ -176,7 +176,7 @@ jQuery(document).ready(function($){
      * Send the email
      * ----------------------------------------------------------------------------
      */
-    function send_email(loan_amount,number_months,user_name,user_email,user_phone,user_city){
+    function send_email(loan_amount,quota,number_months,user_name,user_email,user_phone,user_city){
         $("#loading").show();
         $.ajax({
             type:"POST",
