@@ -3,16 +3,17 @@ jQuery(document).ready(function($){
     var tax_name            = "";
     var rate_nmv            = 0;
     var maximum_months      = 0;
+    var credit_id           = 0;
 
     /*
      * Select the kind of credit
      * ----------------------------------------------------------------------------
      */
     $("select[name='credit-kind']").change(function(){
-        var id              = $(this).val();
+        credit_id              = $(this).val();
         
-        if(id.length > 0){
-            var credit          = $("#wp_credit_"+id);
+        if(credit_id.length > 0){
+            var credit          = $("#wp_credit_"+credit_id);
             tax_name            = credit.children(".tax_name").text();
             rate_nmv            = parseFloat(credit.children(".rate_nmv").text());
             maximum_months      = parseInt(credit.children(".rate_maximum_months").text());
@@ -22,7 +23,7 @@ jQuery(document).ready(function($){
                 months += "<option value='"+i+"'>"+i+"</option>";
             }
             $("select[name='number-of-months']").html(months);
-            $("input[name='rate-nmv']").val(rate_nmv);
+            $("input[name='rate-nmv']").val("Interés de "+rate_nmv);
         }
 
     });
@@ -191,6 +192,7 @@ jQuery(document).ready(function($){
                 user_email:user_email,
                 user_phone:user_phone,
                 user_city:user_city,
+                credit_id:credit_id,
                 action:"wp_credit_send_email",
             },
             dataType:"json",

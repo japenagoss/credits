@@ -221,40 +221,33 @@ add_action("wp_ajax_nopriv_wp_credit_send_email", "wp_credit_send_email");
 add_action("wp_ajax_wp_credit_send_email", "wp_credit_send_email");
 function wp_credit_send_email(){
 
-    $html = wp_credit_email_template(
-            $_POST["credit_kind_name"],
-            $_POST["loan_amount"],
-            $_POST["number_months"],
-            $_POST["quota"],
-            $_POST["user_name"],
-            $_POST["user_email"],
-            $_POST["user_phone"],
-            $_POST["user_city"]
-        );
+    $id     =  $_POST["credit_id"];
+    $name   =  $_POST["user_name"];
+    $phone  =  $_POST["user_phone"];
+    $email  =  $_POST["user_email"];
+    $city   =  $_POST["user_city"];
+    $loan   =  $_POST["loan_amount"];
+    $months =  $_POST["number_months"];
+    $quota  =  $_POST["quota"];
 
-    $agents_emails  = get_option("wp_credit_agents");
-    $agents_emails  = maybe_unserialize($agents_emails);
-    $emails         = array();
+    global $wpdb;
 
-    foreach ($agents_emails as $email) {
-        array_push($emails, $email);
-    }
-
-    $sent = wp_mail(
-        $emails, 
-        __("Un usuario desea más información acerca de un crédito","wp_credits"), 
-        $html
+    $reply = $wpdb->insert( 
+        "wp_credits_contacts", 
+        array( 
+            "name"          => $name, 
+            "phone"         => $phone, 
+            "email"         => $email,
+            "city"          => $city,
+            "loan"          => str_replace(array("COP","$","."),"",$loan),
+            "months"        => $months,
+            "quota"         => str_replace(array("COP","$","."),"",$quota),
+            "credit_kind"   => $id
+        ), 
+        array("%s","%s","%s","%s","%d","%d","%d","%d") 
     );
 
-    if($sent){
-        echo json_encode(
-            array(
-                "error"     => false,
-                "message"   => __("La solicitud ha sido enviada con éxito. Pronto un asesor se comunicará con usted.","wp_credits")
-            )
-        );
-    }
-    else{
+    if(!$reply){
         echo json_encode(
             array(
                 "error"     => true,
@@ -262,7 +255,50 @@ function wp_credit_send_email(){
             )
         );
     }
-    
+    else{
+        $html = wp_credit_email_template(
+                $_POST["credit_kind_name"],
+                $loan,
+                $months,
+                $quota,
+                $name,
+                $email,
+                $phone,
+                $city
+            );
+
+        $agents_emails  = get_option("wp_credit_agents");
+        $agents_emails  = maybe_unserialize($agents_emails);
+        $emails         = array();
+
+        foreach ($agents_emails as $email) {
+            array_push($emails, $email);
+        }
+
+        $sent = wp_mail(
+            $emails, 
+            __("Un usuario desea más información acerca de un crédito","wp_credits"), 
+            $html
+        );
+
+        if($sent){
+            echo json_encode(
+                array(
+                    "error"     => false,
+                    "message"   => __("La solicitud ha sido enviada con éxito. Pronto un asesor se comunicará con usted.","wp_credits")
+                )
+            );
+        }
+        else{
+            echo json_encode(
+                array(
+                    "error"     => true,
+                    "message"   => __("Hubo un error enviando los datos. Inténtelo de nuevo por favor.","wp_credits")
+                )
+            );
+        }
+    }
+        
     wp_die();
 }
 

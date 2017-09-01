@@ -1,13 +1,13 @@
 
 <div id="loading"><div><img src="<?php echo URL_WP_CREDITS."/front/css/images/loading.svg";?>"></div></div>
-<div id="logo"></div>
+<a href="http://coofamiliar.co/"><div id="logo"></div></a>
 
 <div id="body-container">
 
     <div>
         <div>
             <div id="form-container">
-                <div id="logo_2"></div>
+                <a href="http://coofamiliar.co/"><div id="logo_2"></div></a>
                 <header>
                     <h1><?php _e("Simulador de crédito Coofamiliar","wp_credits");?></h1>
                     <p><?php echo get_option("wp_top_text");?></p>
@@ -46,7 +46,7 @@
                             <div id="wp_credits_result_quota" class="one"><?php _e("Cuota mensual","wp_credits");?><span></span></div>
                         </div>
 
-                        <button id="wp_show_email_form" class="button"><?php _e("Enviar mis datos un asesor","wp_credits");?></button>
+                        <button id="wp_show_email_form" class="button"><?php _e("Enviar mis datos a un asesor","wp_credits");?></button>
                     </div>
                     
                     <div id="wp-user-information">
